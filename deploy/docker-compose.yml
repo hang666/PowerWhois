@@ -1,0 +1,39 @@
+services:
+  typonamer:
+    container_name: typonamer
+    image: golang:1
+    command: /typonamer/typonamer
+    volumes:
+      - ./backend:/typonamer
+    ports:
+      - 8080:8080
+    links:
+      - redis
+    environment:
+      - TZ=Asia/Shanghai
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+      - APP_TUNING=true
+    depends_on:
+      - redis
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  redis:
+    image: redis:7
+    container_name: redis
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./redis/redisdata:/data
+    environment:
+      - TZ=Asia/Shanghai
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

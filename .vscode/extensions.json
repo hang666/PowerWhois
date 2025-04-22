@@ -1,0 +1,18 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "vue.volar",
+        "editorconfig.editorconfig",
+        "wayou.vscode-todo-highlight",
+        "golang.go",
+        "anweber.vscode-httpyac",
+        "anweber.httpbook"
+    ],
+    "unwantedRecommendations": [
+        "octref.vetur",
+        "hookyqr.beautify",
+        "dbaeumer.jshint",
+        "ms-vscode.vscode-typescript-tslint-plugin"
+    ]
+}

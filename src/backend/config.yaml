@@ -1,0 +1,67 @@
+# Setting the log level, available values are: Error, Warn, Info, Debug, Off
+LogLevel: Info
+
+# Setting authentication information
+AuthUsername: admin
+AuthPassword: 123456
+AuthExpireDays: 30
+
+# ------ Common settings ------
+## Setting whois parameters
+WhoisTimeout: 5
+
+## Setting DNS parameters
+DnsTimeout: 3
+
+## Setting retry parameters
+RetryOnTimeout: true
+RetryInterval: 3
+RetryMax: 3
+
+## The TLDs forced to go through proxy
+GlobalProxyTlds:
+
+## The TLDs forced to go through proxy in mixed query
+MixedProxyTlds:
+
+## The TLDs forced to go through DNS check in mixed query
+MixedDnsTlds:
+
+## Setting proxy information
+SocketProxyHost: 192.168.1.1
+SocketProxyPort: 7890
+SocketProxyAuth: false
+SocketProxyUser: test
+SocketProxyPassword: 123456
+
+# ------ Bulk check settings ------
+BulkCheckConcurrencyLimit: 100
+
+# ------ Web check settings ------
+WebCheckConcurrencyLimit: 10
+WebCheckDomainLimit: 500
+
+# ------ Typo check settings ------
+TypoDefaultCcTlds:
+  - Tld: com
+    IsSelected: true
+  - Tld: net
+    IsSelected: true
+  - Tld: org
+    IsSelected: true
+  - Tld: co
+    IsSelected: false
+  - Tld: de
+    IsSelected: false
+  - Tld: eu
+    IsSelected: false
+  - Tld: in
+    IsSelected: false
+
+TypoCustomizedReplaces:
+
+# ------ Register APIs ------
+RegisterApis:
+
+# ------ Whois APIs ------
+WhoisApis:

@@ -1,0 +1,123 @@
+
+# Setting the log level, available values are: Error, Warn, Info, Debug, Off
+LogLevel: Info
+
+# Setting authentication information
+AuthUsername: admin
+AuthPassword: 123456
+AuthExpireDays: 30
+
+# ------ Common settings ------
+## Setting whois parameters
+WhoisTimeout: 6
+
+## Setting DNS parameters
+DnsTimeout: 5
+
+## Setting retry parameters
+RetryOnTimeout: true
+RetryInterval: 3
+RetryMax: 2
+
+## The TLDs forced to go through proxy
+GlobalProxyTlds:
+
+## The TLDs forced to go through proxy in mixed query
+MixedProxyTlds:
+    - shop
+    - win
+    - com.pl
+    - pl
+    - bg
+    - ae
+    - at
+    - com.co
+    - co
+    - org.uk
+    - ws
+    - org.br
+    - com.tw
+    - tw
+    - design
+
+## The TLDs forced to go through DNS check in mixed query
+MixedDnsTlds:
+    - cf
+    - ga
+    - gr
+    - nz
+    - ml
+    - to
+    - com.vn
+    - vn
+    - co.nz
+    - tk
+    - es
+    - ac.uk
+    - de
+    - ch
+    - pt
+
+## Setting proxy information
+SocketProxyHost: test.superproxy.io
+SocketProxyPort: 22222
+SocketProxyAuth: true
+SocketProxyUser: testuser
+SocketProxyPassword: 1234567890
+
+# ------ Bulk check settings ------
+BulkCheckConcurrencyLimit: 50
+
+# ------ Web check settings ------
+WebCheckConcurrencyLimit: 10
+WebCheckDomainLimit: 800
+
+# ------ Typo check settings ------
+TypoDefaultCcTlds:
+    - Tld: com
+      IsSelected: true
+    - Tld: net
+      IsSelected: true
+    - Tld: org
+      IsSelected: true
+    - Tld: co
+      IsSelected: true
+    - Tld: de
+      IsSelected: false
+    - Tld: eu
+      IsSelected: false
+    - Tld: in
+      IsSelected: false
+
+TypoCustomizedReplaces:
+    - s2:ss22
+    - sa:sal
+
+# ------ Register APIs ------
+RegisterApis:
+    - ApiName: rrp reg
+      ApiUrl: https://api-ote.rrpproxy.net/api/call?domain={domain}
+      SuccessText:
+          - successfully
+      FailText:
+          - not
+          - code = 540
+          - already registered
+      ConcurrencyLimit: 1
+    - ApiName: dynadot
+      ApiUrl: https://api.dynadot.com/api3.xml?domain={domain}
+      SuccessText:
+          - <SuccessCode>0</SuccessCode><Status>success
+      FailText:
+          - <SuccessCode>1</SuccessCode><Status>not_available
+      ConcurrencyLimit: 1
+
+# ------ Whois APIs ------
+WhoisApis:
+    - ApiName: rrp whois
+      ApiUrl: https://api-ote.rrpproxy.net/api/call?domain={domain}
+      FreeText:
+          - Domain name available
+      TakenText:
+          - not
+      ConcurrencyLimit: 1
