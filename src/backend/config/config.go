@@ -22,6 +22,7 @@ type Config struct {
 	AuthUsername   string `json:"authUsername"`   //认证账号
 	AuthPassword   string `json:"authPassword"`   //认证密码
 	AuthExpireDays int    `json:"authExpireDays"` //认证有效期
+	JwtSecretKey   string `json:"jwtSecretKey"`   //JWT密钥
 
 	WhoisTimeout int `json:"whoisTimeout"` //whois超时
 	DnsTimeout   int `json:"dnsTimeout"`   //DNS超时
@@ -202,6 +203,7 @@ LogLevel: {{ .LogLevel }}
 AuthUsername: {{ .AuthUsername }}
 AuthPassword: {{ .AuthPassword }}
 AuthExpireDays: {{ .AuthExpireDays }}
+JwtSecretKey: {{ .JwtSecretKey }}
 
 # ------ Common settings ------
 ## Setting whois parameters

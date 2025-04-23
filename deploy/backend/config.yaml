@@ -6,6 +6,7 @@ LogLevel: Info
 AuthUsername: admin
 AuthPassword: 123456
 AuthExpireDays: 30
+JwtSecretKey: 1234567890abcdef
 
 # ------ Common settings ------
 ## Setting whois parameters

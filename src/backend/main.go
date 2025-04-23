@@ -21,7 +21,7 @@ import (
 
 const (
 	appName    = "TypoNamer"
-	appVersion = "2025.04.22"
+	appVersion = "2025.04.23"
 	listenPort = ":8080"
 )
 

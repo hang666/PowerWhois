@@ -75,7 +75,7 @@ func LoginRequired() func(*fiber.Ctx) error {
 	return jwtware.New(jwtware.Config{
 		// SigningKey is the key used to sign the JWT token.
 		// It is used to verify the token when it is received.
-		SigningKey: jwtware.SigningKey{Key: []byte(config.GetConfig().AuthPassword)},
+		SigningKey: jwtware.SigningKey{Key: []byte(config.GetConfig().JwtSecretKey)},
 		// ErrorHandler is the handler that is called when the token is invalid, expired, or missing.
 		// It returns a 401 status and a JSON object with status=error and a message of the error.
 		ErrorHandler: jwtError,
@@ -98,8 +98,8 @@ func ValidateToken(tokenString string) (bool, error) {
 			return nil, fmt.Errorf("unexpected jwt signing method: %+v", jwtToken.Header["alg"])
 		}
 
-		// Return the signing key which is the AuthPassword config value.
-		return []byte(config.GetConfig().AuthPassword), nil
+		// Return the signing key which is the JwtSecretKey config value.
+		return []byte(config.GetConfig().JwtSecretKey), nil
 	})
 
 	if err != nil {
@@ -164,7 +164,7 @@ func generateToken(username string) (string, error) {
 	tokenObj := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-	token, err := tokenObj.SignedString([]byte(cfg.AuthPassword))
+	token, err := tokenObj.SignedString([]byte(cfg.JwtSecretKey))
 	if err != nil {
 		// Log the error if the token generation fails.
 		log.Error("Generate token error: ", err)

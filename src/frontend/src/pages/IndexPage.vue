@@ -15,12 +15,12 @@
                     >
                         <q-tab name="webCheck" icon="search" label="网页查询" />
                         <q-separator vertical />
-                        <q-tab name="bulkCheck" icon="zoom_in" label="批量查询" v-if="isLogin" />
-                        <q-separator vertical v-if="isLogin" />
-                        <q-tab name="typoCheck" icon="text_format" label="Typo查询" v-if="isLogin" />
-                        <q-separator vertical v-if="isLogin" />
-                        <q-tab name="login" icon="person" label="登录" v-if="!isLogin" />
-                        <q-btn-dropdown auto-close stretch flat icon="manage_accounts" label="管理" v-if="isLogin">
+                        <q-tab name="bulkCheck" icon="zoom_in" label="批量查询" v-if="tokenStore.token" />
+                        <q-separator vertical v-if="tokenStore.token" />
+                        <q-tab name="typoCheck" icon="text_format" label="Typo查询" v-if="tokenStore.token" />
+                        <q-separator vertical v-if="tokenStore.token" />
+                        <q-tab name="login" icon="person" label="登录" v-if="!tokenStore.token" />
+                        <q-btn-dropdown auto-close stretch flat icon="manage_accounts" label="管理" v-if="tokenStore.token">
                             <q-list>
                                 <q-item clickable @click="tab = 'setting'">
                                     <q-item-section>设置</q-item-section>
@@ -38,19 +38,19 @@
                             <WebCheck></WebCheck>
                         </q-tab-panel>
 
-                        <q-tab-panel name="bulkCheck" v-if="isLogin">
+                        <q-tab-panel name="bulkCheck" v-if="tokenStore.token">
                             <BulkCheck></BulkCheck>
                         </q-tab-panel>
 
-                        <q-tab-panel name="typoCheck" v-if="isLogin">
+                        <q-tab-panel name="typoCheck" v-if="tokenStore.token">
                             <TypoCheck></TypoCheck>
                         </q-tab-panel>
 
-                        <q-tab-panel name="login" v-if="!isLogin">
-                            <AdminLogin @login-success="updateLoginStatus()"></AdminLogin>
+                        <q-tab-panel name="login" v-if="!tokenStore.token">
+                            <AdminLogin @login-success="loginedUpdate()"></AdminLogin>
                         </q-tab-panel>
 
-                        <q-tab-panel name="setting" v-if="isLogin">
+                        <q-tab-panel name="setting" v-if="tokenStore.token">
                             <AdminSetting></AdminSetting>
                         </q-tab-panel>
                     </q-tab-panels>
@@ -64,8 +64,9 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useQuasar } from "quasar";
 import { api } from "boot/axios";
-import { getToken, removeToken } from "src/utils/tokenHandler";
+import { removeToken } from "src/utils/tokenHandler";
 import { close } from "src/utils/websocketHandler";
+import { useTokenStore } from "src/stores/tokenStore";
 import { useSettingStore } from "src/stores/settingStore";
 
 import WebCheck from "src/components/WebCheck.vue";
@@ -79,20 +80,16 @@ defineOptions({
 });
 
 const $q = useQuasar();
+const tokenStore = useTokenStore();
 const settingStore = useSettingStore();
 const tab = ref("webCheck");
-const isLogin = ref(false);
 
-function updateLoginStatus() {
-    const token = getToken();
-    if (token) {
-        isLogin.value = true;
-    }
+function loginedUpdate() {
+    location.reload();
 }
 
 function logout() {
     removeToken();
-    isLogin.value = false;
     tab.value = "webCheck";
 }
 
@@ -120,7 +117,6 @@ function getWebSettings() {
 }
 
 onMounted(() => {
-    updateLoginStatus();
     getWebSettings();
 });
 

@@ -94,7 +94,7 @@ function onSubmit() {
                     $q.notify({
                         position: "top",
                         type: "warning",
-                        message: "登录成功, 请手动刷新网页",
+                        message: "登录成功",
                         timeout: 0,
                         actions: [{ label: "确定", color: "white" }]
                     });
