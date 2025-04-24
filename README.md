@@ -6,7 +6,7 @@
 5. 新增Mix模式，此模式下针对不同的后缀可以自由设置直连，代理，或者DNS扫描
 6. 支持typo生成
 7. 支持自定义whois的API，可以把自己常用的注册商的API自己加进去查询域名的可用性
-8. 支持自定义register的API，可以把自己常用的注册商的API自己加进去，方便注册域名
+8. 支持域名注册，并且自定义register的API，可以把自己常用的注册商的API自己加进去，方便注册域名
 9. 后台设置可以控制线程，失败重试等各种设置
 10. 支持API模式，你可以把程序作为一个API使用，比如接入你的WHMCS，[详见说明](https://github.com/WenLiCG/PowerWhois/blob/main/API%20documentation.md)
 
