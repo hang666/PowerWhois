@@ -66,3 +66,21 @@ RegisterApis:
 
 # ------ Whois APIs ------
 WhoisApis:
+
+# ------ Polling Check ------
+PollingCheck:
+  Enabled: false
+  Interval: 60
+  CheckType: mixedQuery
+  FilePath: ./polling_check.txt
+  NotifyWebhook: https://example.com/webhook
+  NotifyMethod: POST
+  NotifyHeaders:
+    Content-Type: application/json
+  NotifyBody: |
+    {
+      "msgtype": "text",
+      "text": {
+        "content": "{msg}"
+      }
+    }

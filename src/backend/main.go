@@ -8,6 +8,7 @@ import (
 	"typonamer/api"
 	"typonamer/config"
 	"typonamer/log"
+	"typonamer/scheduler"
 
 	"github.com/dromara/carbon/v2"
 	"github.com/gofiber/contrib/socketio"
@@ -54,6 +55,9 @@ func main() {
 
 	// 延迟同步日志
 	defer log.Sync()
+
+	go scheduler.StartPollingCheck()
+	defer scheduler.StopPollingCheck()
 
 	app.Use(compress.New())
 	app.Use(cors.New(cors.Config{

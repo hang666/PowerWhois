@@ -2,6 +2,7 @@ package config
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -52,6 +53,19 @@ type Config struct {
 
 	RegisterApis []RegisterApi `json:"registerApis"` //注册接口
 	WhoisApis    []WhoisApi    `json:"whoisApis"`    //自定义whois接口
+
+	PollingCheck PollingCheck `json:"pollingCheck"` //轮询检查配置
+}
+
+type PollingCheck struct {
+	Enabled       bool              `json:"enabled"`       //是否启用轮询检查
+	Interval      int               `json:"interval"`      //轮询间隔 秒
+	CheckType     string            `json:"checkType"`     //检查类型
+	FilePath      string            `json:"filePath"`      //文件路径
+	NotifyWebhook string            `json:"notifyWebhook"` //通知Webhook地址
+	NotifyMethod  string            `json:"notifyMethod"`  //通知方法
+	NotifyHeaders map[string]string `json:"notifyHeaders"` //通知头部
+	NotifyBody    string            `json:"notifyBody"`    //通知内容
 }
 
 type CcTld struct {
@@ -118,6 +132,20 @@ func init() {
 
 	// Print the configuration to the debug log at startup.
 	log.Debugf("Read config: %+v", config)
+
+	// format the NotifyBody field in PollingCheck to be a valid JSON string.
+	var notifyBodyJson map[string]interface{}
+	err = json.Unmarshal([]byte(config.PollingCheck.NotifyBody), &notifyBodyJson)
+	if err != nil {
+		log.Error("Error unmarshalling NotifyBody: ", err)
+		return
+	}
+	result, err := json.Marshal(notifyBodyJson)
+	if err != nil {
+		log.Error("Error marshalling NotifyBody: ", err)
+		return
+	}
+	config.PollingCheck.NotifyBody = string(result)
 }
 
 func GetConfig() Config {
@@ -292,6 +320,21 @@ WhoisApis:
 {{- end}}
       ConcurrencyLimit: {{.ConcurrencyLimit}}
 {{- end}}
+
+# ------ Polling Check ------
+PollingCheck:
+  Enabled: {{ .PollingCheck.Enabled }}
+  Interval: {{ .PollingCheck.Interval }}
+  CheckType: {{ .PollingCheck.CheckType }}
+  FilePath: {{ .PollingCheck.FilePath }}
+  NotifyWebhook: {{ .PollingCheck.NotifyWebhook }}
+  NotifyMethod: {{ .PollingCheck.NotifyMethod }}
+  NotifyHeaders:
+{{- range $key, $value := .PollingCheck.NotifyHeaders }}
+    {{ $key }}: {{ $value }}
+{{- end}}
+  NotifyBody: |
+    {{ .PollingCheck.NotifyBody }}
 `
 
 	// Create a new template for the configuration file.
